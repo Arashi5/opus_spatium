@@ -19,7 +19,6 @@ func StreamIn() {
 	}
 }
 
-
 func StreamOut()  {
 	if len(os.Args) == 1 {
 		fmt.Println("Need Arg")

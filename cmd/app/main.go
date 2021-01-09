@@ -1,10 +1,10 @@
 package main
 
-import "work_space/internal/err"
+import "work_space/internal/pack/err"
 
 func main() {
 	/* пакеты */
-	//packets.SimpleImportModule()
+	//imports.SimpleImportModule()
 
 	/* потоки */
 	//stream.StreamIn()
