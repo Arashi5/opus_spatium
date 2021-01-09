@@ -35,7 +35,7 @@ func returnError(a, b int) error {
 	return nil
 }
 
-//В идеальном мире - os.Exit() необходимо использовать в функции main
+//In an ideal world - os.Exit () should be used in the "main" function
 func Error() {
 	if len(os.Args) == 1 {
 		fmt.Println("Need args")
