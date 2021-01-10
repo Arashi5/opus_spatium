@@ -1,6 +1,6 @@
 package main
 
-import "work_space/internal/pack/err"
+import "work_space/playground/engine/gc"
 
 func main() {
 	/* пакеты */
@@ -19,5 +19,8 @@ func main() {
 
 	/* error */
 	//err.ReturnError()
-	err.Error()
+	//err.Error()
+
+	/* Garbage Collection*/
+	gc.GCExample()
 }
