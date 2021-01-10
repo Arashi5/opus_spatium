@@ -36,7 +36,7 @@ func returnError(a, b int) error {
 }
 
 //In an ideal world - os.Exit () should be used in the "main" function
-func Error() {
+func ExampleError() {
 	if len(os.Args) == 1 {
 		fmt.Println("Need args")
 		os.Exit(1)
