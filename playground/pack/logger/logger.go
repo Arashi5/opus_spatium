@@ -7,12 +7,26 @@ import (
 	"os"
 	"path/filepath"
 )
+
+type Logger interface {
+	Log()
+	LogFatal()
+	LogPanic()
+	CustomLog()
+}
+
+type Repository struct {}
+
+func NewRepo() *Repository  {
+	return &Repository{}
+}
+
 /**
 grep LOG_ /var/log/syslog
 grep LOG_LOCAL7 /var/log/cisco
 grep LOG_MAIL /var/log/mail.log
  */
-func Log() {
+func(Repository) Log() {
 	pn := filepath.Base(os.Args[0])
 	sl, err := syslog.New(syslog.LOG_INFO|syslog.LOG_LOCAL7, pn)
 	if err != nil {
@@ -33,7 +47,7 @@ func Log() {
 	log.Println("some text")
 }
 
-func LogFatal() {
+func(Repository) LogFatal() {
 	sl, err := syslog.New(syslog.LOG_ALERT|syslog.LOG_MAIL, "Fatal example")
 	if err != nil {
 		log.Fatal(err)
@@ -45,7 +59,7 @@ func LogFatal() {
 	fmt.Println("Some text")
 }
 
-func LogPanic() {
+func(Repository) LogPanic() {
 	sl, err := syslog.New(syslog.LOG_ALERT|syslog.LOG_MAIL, "Panic example")
 	if err != nil {
 		log.Fatal(err)
@@ -59,7 +73,7 @@ func LogPanic() {
 
 //before use, create /tmp/custom_log.log
 var LOGFILE = "/tmp/custom_log.log"
-func CustomLog(){
+func(Repository) CustomLog(){
 	f, err := os.OpenFile(LOGFILE, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Panic(err)

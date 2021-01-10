@@ -6,16 +6,18 @@ import (
 	"time"
 )
 
-func printStats(mem runtime.MemStats) {
-	runtime.ReadMemStats(&mem)
-	fmt.Println("mem.Alloc:", mem.Alloc)
-	fmt.Println("mem.TotalAlloc:", mem.TotalAlloc)
-	fmt.Println("mem.HeapAlloc:", mem.HeapAlloc)
-	fmt.Println("mem.NumGC:", mem.NumGC)
-	fmt.Println("----------")
+type GarbageCollection interface {
+	SimpleImportModule()
 }
+
+type Repository struct {}
+
+func NewRepo() *Repository  {
+	return &Repository{}
+}
+
 //GODEBUG=gctrace=1 go run *.go
-func GCExample()  {
+func (Repository) GCExample()  {
 	var mem runtime.MemStats
 	printStats(mem)
 
@@ -35,4 +37,14 @@ func GCExample()  {
 		time.Sleep(time.Second * 5)
 	}
 	printStats(mem)
+}
+
+
+func printStats(mem runtime.MemStats) {
+	runtime.ReadMemStats(&mem)
+	fmt.Println("mem.Alloc:", mem.Alloc)
+	fmt.Println("mem.TotalAlloc:", mem.TotalAlloc)
+	fmt.Println("mem.HeapAlloc:", mem.HeapAlloc)
+	fmt.Println("mem.NumGC:", mem.NumGC)
+	fmt.Println("----------")
 }

@@ -7,7 +7,18 @@ import (
 	"strconv"
 )
 
-func ReturnError() {
+type Errors interface {
+	ReturnError()
+	ExampleError()
+}
+
+type Repository struct {}
+
+func NewRepo() *Repository  {
+	return &Repository{}
+}
+
+func (Repository) ReturnError() {
 	err := returnError(1,2)
 	if err != nil {
 		fmt.Println("returnError() ended normally")
@@ -36,7 +47,7 @@ func returnError(a, b int) error {
 }
 
 //In an ideal world - os.Exit () should be used in the "main" function
-func ExampleError() {
+func (Repository) ExampleError() {
 	if len(os.Args) == 1 {
 		fmt.Println("Need args")
 		os.Exit(1)

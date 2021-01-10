@@ -8,7 +8,19 @@ import (
 	"strconv"
 )
 
-func StreamIn() {
+type Streams interface {
+	StreamIn()
+	StreamOut()
+	StreamError()
+}
+
+type Repository struct {}
+
+func NewRepo() *Repository  {
+	return &Repository{}
+}
+
+func (Repository)StreamIn() {
 	var f * os.File
 	f = os.Stdin
 	defer f.Close()
@@ -19,7 +31,7 @@ func StreamIn() {
 	}
 }
 
-func StreamOut()  {
+func (Repository)StreamOut()  {
 	if len(os.Args) == 1 {
 		fmt.Println("Need Arg")
 		os.Exit(1)
@@ -59,7 +71,7 @@ go run main.go 2>/tmp/stdError
 or
 go run main.go /tmp/output 2>&1
  */
-func StreamError() {
+func (Repository)StreamError() {
 	ms := ""
 	args := os.Args
 	if len(args) == 1 {
