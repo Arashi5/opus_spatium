@@ -5,5 +5,5 @@ type WorkSpace interface {
 	GetStreams() error
 	GetLogger() error
 	GetError() error
-	GetGarbageCollection()
+	GetGarbageCollection() error
 }

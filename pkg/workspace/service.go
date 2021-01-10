@@ -19,7 +19,7 @@ func (s service) GetImports()  {
 func (s service) GetStreams() error {
 	var err error
 	r := s.Rep.Str
-	switch s.Arg {
+	switch s.Arg[0] {
 	case "in":
 		r.StreamIn()
 		break
@@ -43,7 +43,7 @@ func (s service) GetStreams() error {
 func (s service) GetLogger() error {
 	var err error
 	r := s.Rep.Log
-	switch s.Arg {
+	switch s.Arg[0]  {
 	case "log":
 		r.Log()
 		break
@@ -70,7 +70,7 @@ func (s service) GetLogger() error {
 func (s service) GetError() error {
 	var err error
 	r := s.Rep.Err
-	switch s.Arg {
+	switch s.Arg[0]  {
 	case "return":
 		r.ReturnError()
 		break
@@ -88,8 +88,26 @@ func (s service) GetError() error {
 	}
 }
 
-func (s service) GetGarbageCollection()  {
-	s.Rep.GC.GCExample()
+//time go run main.go gc slice s|ms|mns|mst
+func (s service) GetGarbageCollection() error {
+	var err error
+	r := s.Rep.GC
+	switch s.Arg[0]  {
+	case "example":
+		r.GCExample()
+		break
+	case "slice":
+		err = r.GCSlice(s.Arg[1])
+		break
+	default:
+		err = errors.New(errorMessage("GC"))
+	}
+
+	if err != nil {
+		return err
+	} else {
+		return nil
+	}
 }
 
 func errorMessage(p string) string {

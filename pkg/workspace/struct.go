@@ -9,12 +9,12 @@ import (
 )
 
 type service struct {
-	Arg string
+	Arg []string
 	Rep *PGRepositoriesCollection
 }
 
 type Config struct {
-	Arg string
+	Arg []string
 	Rep *PGRepositoriesCollection
 }
 

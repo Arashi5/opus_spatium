@@ -15,22 +15,16 @@ import (
 func main() {
 	var err error
 	args := os.Args
+
 	if len(args) == 1 {
 		err = errors.New("Need more args")
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	var aa string
-	if len(args) < 3 {
-		aa = ""
-	} else {
-		aa = args[2]
-	}
-
 	ws := workspace.NewService(&workspace.Config{
-		Arg: aa,
-		Rep: getPGRepoList() ,
+		Arg: getAdditionalArgs(args),
+		Rep: getPGRepoCollection() ,
 	})
 	switch args[1] {
 	case "imports":
@@ -45,7 +39,7 @@ func main() {
 	case "error":
 		err = ws.GetError()
 	case "gc":
-		ws.GetGarbageCollection()
+		err = ws.GetGarbageCollection()
 		break
 	default:
 		err = errors.New("There is no such argument")
@@ -57,7 +51,24 @@ func main() {
 	}
 }
 
-func getPGRepoList() *workspace.PGRepositoriesCollection {
+func getAdditionalArgs(args []string) []string {
+	var aa []string
+
+	if len(args) < 2 {
+		return aa
+	}
+
+	for i:= 0; i < len(args); i++ {
+		if i < 2 {
+			continue
+		}
+		aa = append(aa, args[i])
+	}
+
+	return  aa
+}
+
+func getPGRepoCollection() *workspace.PGRepositoriesCollection {
 	return  &workspace.PGRepositoriesCollection{
 		Str: stream.NewRepo(),
 		Log: logger.NewRepo(),
