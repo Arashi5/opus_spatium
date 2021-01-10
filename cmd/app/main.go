@@ -57,8 +57,8 @@ func main() {
 	}
 }
 
-func getPGRepoList() *workspace.PGRepositories {
-	return  &workspace.PGRepositories{
+func getPGRepoList() *workspace.PGRepositoriesCollection {
+	return  &workspace.PGRepositoriesCollection{
 		Str: stream.NewRepo(),
 		Log: logger.NewRepo(),
 		Err: er.NewRepo(),
