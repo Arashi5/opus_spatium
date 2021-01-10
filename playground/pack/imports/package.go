@@ -6,9 +6,7 @@ import (
 	"github.com/mactsouk/go/simpleGitHub"
 )
 
-type Imports interface {
-	SimpleImportModule()
-}
+
 
 type Repository struct {}
 

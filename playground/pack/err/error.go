@@ -7,11 +7,6 @@ import (
 	"strconv"
 )
 
-type Errors interface {
-	ReturnError()
-	ExampleError()
-}
-
 type Repository struct {}
 
 func NewRepo() *Repository  {

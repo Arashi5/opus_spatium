@@ -8,12 +8,6 @@ import (
 	"strconv"
 )
 
-type Streams interface {
-	StreamIn()
-	StreamOut()
-	StreamError()
-}
-
 type Repository struct {}
 
 func NewRepo() *Repository  {

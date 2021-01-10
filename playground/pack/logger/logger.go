@@ -8,13 +8,6 @@ import (
 	"path/filepath"
 )
 
-type Logger interface {
-	Log()
-	LogFatal()
-	LogPanic()
-	CustomLog()
-}
-
 type Repository struct {}
 
 func NewRepo() *Repository  {

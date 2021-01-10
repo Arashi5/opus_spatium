@@ -6,10 +6,6 @@ import (
 	"time"
 )
 
-type GarbageCollection interface {
-	SimpleImportModule()
-}
-
 type Repository struct {}
 
 func NewRepo() *Repository  {
@@ -39,7 +35,6 @@ func (Repository) GCExample()  {
 	printStats(mem)
 }
 
-
 func printStats(mem runtime.MemStats) {
 	runtime.ReadMemStats(&mem)
 	fmt.Println("mem.Alloc:", mem.Alloc)
@@ -48,3 +43,4 @@ func printStats(mem runtime.MemStats) {
 	fmt.Println("mem.NumGC:", mem.NumGC)
 	fmt.Println("----------")
 }
+
