@@ -6,4 +6,5 @@ type WorkSpace interface {
 	GetLogger() error
 	GetError() error
 	GetGarbageCollection() error
+	GetDraft()
 }

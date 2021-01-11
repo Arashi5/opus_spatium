@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"work_space/pkg/workspace"
+	"work_space/playground/draft"
 	"work_space/playground/engine/gc"
 	"work_space/playground/pack/imports"
 	"work_space/playground/pack/logger"
@@ -41,6 +42,9 @@ func main() {
 	case "gc":
 		err = ws.GetGarbageCollection()
 		break
+	case "draft":
+		ws.GetDraft()
+		break
 	default:
 		err = errors.New("There is no such argument")
 	}
@@ -75,5 +79,6 @@ func getPGRepoCollection() *workspace.PGRepositoriesCollection {
 		Err: er.NewRepo(),
 		Imp: imports.NewRepo(),
 		GC:  gc.NewRepo(),
+		D: draft.NewRepo(),
 	}
 }

@@ -12,6 +12,10 @@ func NewService(cfg *Config) *service  {
 	}
 }
 
+func (s service) GetDraft()  {
+	s.Rep.D.CheckVar()
+}
+
 func (s service) GetImports()  {
 	s.Rep.Imp.SimpleImportModule()
 }

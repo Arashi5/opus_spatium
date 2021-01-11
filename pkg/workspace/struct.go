@@ -1,6 +1,7 @@
 package workspace
 
 import (
+	"work_space/playground/draft"
 	"work_space/playground/engine/gc"
 	"work_space/playground/pack/err"
 	"work_space/playground/pack/imports"
@@ -24,4 +25,5 @@ type PGRepositoriesCollection struct {
 	Imp *imports.Repository
 	Str *stream.Repository
 	GC  *gc.Repository
+	D   *draft.Repository
 }
