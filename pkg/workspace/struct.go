@@ -10,20 +10,21 @@ import (
 )
 
 type service struct {
-	Arg []string
-	Rep *PGRepositoriesCollection
+	Arguments  Arguments
+	Repository *PGRepositoriesCollection
 }
 
 type Config struct {
-	Arg []string
-	Rep *PGRepositoriesCollection
+	Arguments Arguments
 }
 
+type Arguments []string
+
 type PGRepositoriesCollection struct {
-	Err *err.Repository
-	Log *logger.Repository
-	Imp *imports.Repository
-	Str *stream.Repository
-	GC  *gc.Repository
-	D   *draft.Repository
+	Err *err.Exec
+	Log *logger.Exec
+	Imp *imports.Exec
+	Str *stream.Exec
+	GC  *gc.Exec
+	D   *draft.Exec
 }

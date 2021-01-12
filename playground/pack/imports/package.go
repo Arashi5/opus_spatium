@@ -2,18 +2,24 @@ package imports
 
 import (
 	"fmt"
-
 	"github.com/mactsouk/go/simpleGitHub"
 )
 
-
-
-type Repository struct {}
-
-func NewRepo() *Repository  {
-	return &Repository{}
+type Exec struct {
+	repo repository
 }
 
-func (Repository)SimpleImportModule()  {
-	fmt.Println(simpleGitHub.AddTwo(5,6))
+type repository struct{}
+
+func NewRepo() *Exec {
+	return &Exec{repo: repository{}}
+}
+
+func (e Exec) Exec(_ []string) *error {
+	e.repo.simpleImportModule()
+	return nil
+}
+
+func (repository) simpleImportModule() {
+	fmt.Println(simpleGitHub.AddTwo(5, 6))
 }

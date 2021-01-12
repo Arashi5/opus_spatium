@@ -11,21 +11,17 @@ type data struct {
 	i, j int
 }
 
-func (Repository) GCSlice(s string) error {
+func (repository) gcSlice(s string) error {
 	var err error
 	switch s {
 	case "s":
 		slice()
-		break
 	case "ms":
 		sliceMapWithStar()
-		break
 	case "mns":
 		sliceMapWithNoStar()
-		break
 	case "mst":
 		sliceMapSplit()
-		break
 	default:
 		err = errors.New("There is no such argument in packet gc; function GCSlice()")
 	}
@@ -37,9 +33,9 @@ func (Repository) GCSlice(s string) error {
 	}
 }
 
-func  slice()  {
+func slice() {
 	var structure []data
-	for i :=0; i < N; i++ {
+	for i := 0; i < N; i++ {
 		v := int(i)
 		structure = append(structure, data{v, v})
 	}
@@ -74,11 +70,11 @@ func sliceMapSplit() {
 	for i := range s {
 		s[i] = make(map[int]int)
 	}
-	for i :=0; i < N; i ++ {
+	for i := 0; i < N; i++ {
 		v := int(i)
 		s[i%200][v] = v
 	}
 
 	runtime.GC()
-	_=s[0][0]
+	_ = s[0][0]
 }

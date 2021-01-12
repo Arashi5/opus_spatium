@@ -2,20 +2,47 @@ package stream
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"os"
 	"strconv"
+	"work_space/pkg/messages"
 )
 
-type Repository struct {}
-
-func NewRepo() *Repository  {
-	return &Repository{}
+type Exec struct {
+	repo repository
 }
 
-func (Repository)StreamIn() {
-	var f * os.File
+type repository struct{}
+
+func NewRepo() *Exec {
+	return &Exec{repo: repository{}}
+}
+
+func (e Exec) Exec(args []string) *error {
+	var err error
+	r := e.repo
+	switch args[0] {
+	case "in":
+		r.streamIn()
+	case "out":
+		r.streamOut()
+	case "err":
+		r.streamError()
+	default:
+		err = errors.New(messages.ArgErrorMessage("Stream"))
+	}
+
+	if err != nil {
+		return &err
+	} else {
+		return nil
+	}
+}
+
+func (repository) streamIn() {
+	var f *os.File
 	f = os.Stdin
 	defer f.Close()
 
@@ -25,7 +52,7 @@ func (Repository)StreamIn() {
 	}
 }
 
-func (Repository)StreamOut()  {
+func (repository) streamOut() {
 	if len(os.Args) == 1 {
 		fmt.Println("Need Arg")
 		os.Exit(1)
@@ -44,7 +71,7 @@ func (Repository)StreamOut()  {
 	}
 
 	for i := 2; i < len(args); i++ {
-		n,_ := strconv.ParseFloat(args[i],64)
+		n, _ := strconv.ParseFloat(args[i], 64)
 
 		if n < min {
 			min = n
@@ -59,13 +86,12 @@ func (Repository)StreamOut()  {
 	fmt.Println("Max:", max)
 }
 
-
 /**
 go run main.go 2>/tmp/stdError
 or
 go run main.go /tmp/output 2>&1
- */
-func (Repository)StreamError() {
+*/
+func (repository) streamError() {
 	ms := ""
 	args := os.Args
 	if len(args) == 1 {

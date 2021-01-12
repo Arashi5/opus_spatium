@@ -6,14 +6,8 @@ import (
 	"time"
 )
 
-type Repository struct {}
-
-func NewRepo() *Repository  {
-	return &Repository{}
-}
-
 //GODEBUG=gctrace=1 go run *.go
-func (Repository) GCExample()  {
+func (repository) gcExample() {
 	var mem runtime.MemStats
 	printStats(mem)
 
@@ -43,4 +37,3 @@ func printStats(mem runtime.MemStats) {
 	fmt.Println("mem.NumGC:", mem.NumGC)
 	fmt.Println("----------")
 }
-

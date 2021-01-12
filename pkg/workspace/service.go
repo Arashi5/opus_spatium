@@ -1,120 +1,74 @@
 package workspace
 
-import (
-	"errors"
-	"fmt"
-)
-
-func NewService(cfg *Config) *service  {
+func NewService(cfg *Config) *service {
 	return &service{
-		Arg: cfg.Arg,
-		Rep: cfg.Rep,
+		Arguments:  getAdditionalArgs(cfg.Arguments),
+		Repository: getPGRepoCollection(),
 	}
 }
 
-func (s service) GetDraft()  {
-	s.Rep.D.CheckVar()
-}
-
-func (s service) GetImports()  {
-	s.Rep.Imp.SimpleImportModule()
-}
-
-func (s service) GetStreams() error {
-	var err error
-	r := s.Rep.Str
-	switch s.Arg[0] {
-	case "in":
-		r.StreamIn()
-		break
-	case "out":
-		r.StreamOut()
-		break
-	case "err":
-		r.StreamError()
-		break
-	default:
-		err = errors.New(errorMessage("Stream"))
-	}
-
-	if err != nil {
+func (s service) GetDraft() *error {
+	if err := s.Repository.D.Exec(s.Arguments); err != nil {
 		return err
-	} else {
-		return nil
 	}
+
+	return nil
 }
 
-func (s service) GetLogger() error {
-	var err error
-	r := s.Rep.Log
-	switch s.Arg[0]  {
-	case "log":
-		r.Log()
-		break
-	case "fatal":
-		r.LogFatal()
-		break
-	case "panic":
-		r.LogPanic()
-		break
-	case "custom":
-		r.CustomLog()
-		break
-	default:
-		err = errors.New(errorMessage("Logger"))
+func (s service) GetImports() *error {
+	if err := s.Repository.Imp.Exec(s.Arguments); err != nil {
+		return err
 	}
 
-	if err != nil {
-		return err
-	} else {
-		return nil
-	}
+	return nil
 }
 
-func (s service) GetError() error {
-	var err error
-	r := s.Rep.Err
-	switch s.Arg[0]  {
-	case "return":
-		r.ReturnError()
-		break
-	case "example":
-		r.ExampleError()
-		break
-	default:
-		err = errors.New(errorMessage("Err"))
+func (s service) GetStreams() *error {
+	if err := s.Repository.Str.Exec(s.Arguments); err != nil {
+		return err
 	}
 
-	if err != nil {
+	return nil
+}
+
+func (s service) GetLogger() *error {
+	if err := s.Repository.Log.Exec(s.Arguments); err != nil {
 		return err
-	} else {
-		return nil
 	}
+
+	return nil
+}
+
+func (s service) GetError() *error {
+	if err := s.Repository.Err.Exec(s.Arguments); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 //time go run main.go gc slice s|ms|mns|mst
-func (s service) GetGarbageCollection() error {
-	var err error
-	r := s.Rep.GC
-	switch s.Arg[0]  {
-	case "example":
-		r.GCExample()
-		break
-	case "slice":
-		err = r.GCSlice(s.Arg[1])
-		break
-	default:
-		err = errors.New(errorMessage("GC"))
+func (s service) GetGarbageCollection() *error {
+	if err := s.Repository.GC.Exec(s.Arguments); err != nil {
+		return err
 	}
 
-	if err != nil {
-		return err
-	} else {
-		return nil
-	}
+	return nil
 }
 
-func errorMessage(p string) string {
-	s := fmt.Sprintf("There is no such argument in packet %s", p)
-	return s
+func getAdditionalArgs(args []string) Arguments {
+	var aa Arguments
+
+	if len(args) < 2 {
+		return aa
+	}
+
+	for i := 0; i < len(args); i++ {
+		if i < 2 {
+			continue
+		}
+		aa = append(aa, args[i])
+	}
+
+	return aa
 }
