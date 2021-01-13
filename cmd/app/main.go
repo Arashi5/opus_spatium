@@ -20,21 +20,16 @@ func main() {
 	switch args[1] {
 	case "imports":
 		ws.GetImports()
-		break
 	case "stream":
 		err = ws.GetStreams()
-		break
 	case "logger":
 		err = ws.GetLogger()
-		break
 	case "error":
 		err = ws.GetError()
 	case "gc":
 		err = ws.GetGarbageCollection()
-		break
 	case "draft":
 		ws.GetDraft()
-		break
 	default:
 		e := errors.New("There is no such argument")
 		err = &e

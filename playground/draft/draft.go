@@ -22,10 +22,6 @@ func (e Exec) Exec(_ []string) *error {
 
 const durationSec = 5
 
-type FileMeta struct {
-	Size int
-}
-
 var file FileMeta
 
 func (repository) checkGlobalVar() {
@@ -34,6 +30,6 @@ func (repository) checkGlobalVar() {
 	for range tic {
 		fmt.Println(file.Size)
 		i++
-		file.Size = i
+		file.Size = uint64(i)
 	}
 }
