@@ -2,11 +2,12 @@ package draft
 
 import (
 	"fmt"
-	"github.com/jlaffaye/ftp"
 	"os"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/jlaffaye/ftp"
 )
 
 var files Files
@@ -27,13 +28,16 @@ type configs struct {
 	Path     string
 }
 
-func exec() {
+func (repository) ftpFileChecker() {
 	cfg := &configs{}
-	ftp, err := initFTPConnection(cfg)
+	f, err := initFTPConnection(cfg)
 	if err != nil {
 		os.Exit(1)
 	}
-	checkFile(ftp, cfg)
+	cf := checkFile(f, cfg)
+	if r := cf(); !r {
+		os.Exit(1)
+	}
 }
 func initFTPConnection(cfg *configs) (*ftp.ServerConn, error) {
 	addr := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
@@ -50,15 +54,14 @@ func initFTPConnection(cfg *configs) (*ftp.ServerConn, error) {
 	return conn, nil
 }
 
-func checkFile(ftp *ftp.ServerConn, cfg *configs) func() Files {
+func checkFile(ftp *ftp.ServerConn, cfg *configs) func() bool {
 	tf := Files{}
-	return func() Files {
+	return func() bool {
 		fmt.Println(files)
 		cf := Files{}
-		ff := Files{}
 		e, err := ftp.List(cfg.Path)
 		if err != nil {
-			return cf
+			return false
 		}
 
 		for i := range e {
@@ -73,7 +76,7 @@ func checkFile(ftp *ftp.ServerConn, cfg *configs) func() Files {
 		}
 
 		if len(cf) < 1 {
-			return cf
+			return false
 		}
 
 		for i := range cf {
@@ -95,10 +98,9 @@ func checkFile(ftp *ftp.ServerConn, cfg *configs) func() Files {
 			}
 
 			files = append(files, cf[i])
-			ff = append(ff, cf[i])
 			tf = append(tf[:b], tf[b+1:]...)
 		}
 
-		return ff
+		return len(files) > 1
 	}
 }
