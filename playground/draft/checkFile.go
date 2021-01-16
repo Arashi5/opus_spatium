@@ -22,7 +22,7 @@ type FileMeta struct {
 
 type configs struct {
 	Host     string
-	Port     string
+	Port     uint64
 	User     string
 	Password string
 	Path     string
@@ -57,7 +57,6 @@ func initFTPConnection(cfg *configs) (*ftp.ServerConn, error) {
 func checkFile(ftp *ftp.ServerConn, cfg *configs) func() bool {
 	tf := Files{}
 	return func() bool {
-		fmt.Println(files)
 		cf := Files{}
 		e, err := ftp.List(cfg.Path)
 		if err != nil {

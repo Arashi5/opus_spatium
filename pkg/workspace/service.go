@@ -63,7 +63,7 @@ func getAdditionalArgs(args []string) Arguments {
 		return aa
 	}
 
-	for i := 0; i < len(args); i++ {
+	for i := range args{
 		if i < 2 {
 			continue
 		}
